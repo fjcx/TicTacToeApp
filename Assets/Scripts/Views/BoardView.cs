@@ -20,7 +20,7 @@ public class BoardView : MonoBehaviour {
     #region Subscribed event listeners
     // Received DisplayBoardEvent
     public void OnDisplayBoardEvent(DisplayBoardEvent evt) {
-        // TODO: bring to front/ or remove
+        // not called, remove
     }
 
     // Received UpdateBoardCellsEvent
