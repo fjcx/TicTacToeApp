@@ -53,11 +53,11 @@ public class MenuController : MonoBehaviour {
 
         // Update BoardModel with new Players
         BoardModel boardModel = tttApp.Model;
-        boardModel.player1 = player1;
-        boardModel.player2 = player2;
-        boardModel.currentPlayer = player1;
-        boardModel.p1Total = 0;
-        boardModel.p2Total = 0;
+        boardModel.players[0] = player1;
+        boardModel.players[1] = player2;
+        boardModel.currentPlayerIndex = 0;
+        boardModel.playerScores[0] = 0;
+        boardModel.playerScores[1] = 0;
 
         StartGame();
     }

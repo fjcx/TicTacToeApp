@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 // Entry point for application
  public class TTTApplication : MonoBehaviour {
@@ -32,7 +31,11 @@ using System.Collections;
         for (int i = 0; i < Model.cells.Length; i++) {
             Model.cells[i] = CellContent.EMPTY;
         }
-        this.Model.p1Total = 0;
-        this.Model.p2Total = 0;
+        this.Model.players = new Player[2];
+        this.Model.playerScores = new int[2];
+
+        this.Model.playerScores[0] = 0;
+        this.Model.playerScores[1] = 0;
+        this.Model.currentPlayerIndex = 0;
     }
 }

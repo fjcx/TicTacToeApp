@@ -19,10 +19,10 @@ public class TotalScorePanelView : MonoBehaviour {
     #region Subscribed event listeners
     // Received UpdateTotalScoreEvent. Update total score panel UI elements
     public void OnUpdateTotalScoreEvent(UpdateTotalScoreEvent evt) {
-        p1Name.text = evt.boardModel.player1.playerName;
-        p2Name.text = evt.boardModel.player2.playerName;
-        p1TotalText.text = "" + evt.boardModel.p1Total;
-        p2TotalText.text = "" + evt.boardModel.p2Total;
+        p1Name.text = evt.boardModel.players[0].playerName;
+        p2Name.text = evt.boardModel.players[1].playerName;
+        p1TotalText.text = "" + evt.boardModel.playerScores[0];
+        p2TotalText.text = "" + evt.boardModel.playerScores[1];
     }
 
     // Received DisplayTotalScoreEvent. Show/Hide total score panel

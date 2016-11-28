@@ -67,7 +67,7 @@ public class BoardController : MonoBehaviour {
     // Refers to the logic defined in Player type to choose the next move
     public void StartPlayerTurn() {
         BoardModel boardModel = tttApp.Model;
-        boardModel.currentPlayer.ChooseNextMove(boardModel);
+        boardModel.players[boardModel.currentPlayerIndex].ChooseNextMove(boardModel);
     }
 
     // Applies the chosen move to the game board
@@ -75,9 +75,9 @@ public class BoardController : MonoBehaviour {
         BoardModel boardModel = tttApp.Model;
 
         if (boardModel.cells[cellIndex] == CellContent.EMPTY) {
-            if (boardModel.currentPlayer.playerSymbol == CellContent.X) {
+            if (boardModel.players[boardModel.currentPlayerIndex].playerSymbol == CellContent.X) {
                 boardModel.cells[cellIndex] = CellContent.X;
-            } else if (boardModel.currentPlayer.playerSymbol == CellContent.O) {
+            } else if (boardModel.players[boardModel.currentPlayerIndex].playerSymbol == CellContent.O) {
                 boardModel.cells[cellIndex] = CellContent.O;
             }
 
@@ -94,21 +94,21 @@ public class BoardController : MonoBehaviour {
         BoardModel boardModel = tttApp.Model;
 
         // Check for win/draw condition
-        if (WinConditions.isWinningCondition(boardModel.cells, boardModel.currentPlayer.playerSymbol)) {
+        if (WinConditions.isWinningCondition(boardModel.cells, boardModel.players[boardModel.currentPlayerIndex].playerSymbol)) {
             // Note: only the currrentplayer can win as they made the last move    
-            ShowPlayerWon(boardModel.currentPlayer);
+            ShowPlayerWon(boardModel.players[boardModel.currentPlayerIndex]);
             // Update current player to default player on win condition
-            boardModel.currentPlayer = boardModel.player1;
+            boardModel.currentPlayerIndex = 0;
         } else if (WinConditions.isDraw(boardModel.cells)) {
             ShowPlayerWon(null);
             // Update current player to default player on draw condition
-            boardModel.currentPlayer = boardModel.player1;
+            boardModel.currentPlayerIndex = 0;
         } else {
             // Switch current player if no win/draw is found
-            if (boardModel.currentPlayer == boardModel.player1) {
-                boardModel.currentPlayer = boardModel.player2;
+            if (boardModel.currentPlayerIndex == 0) {
+                boardModel.currentPlayerIndex = 1;
             } else {
-                boardModel.currentPlayer = boardModel.player1;
+                boardModel.currentPlayerIndex = 0;
             }
             // Call Player to choose next move
             StartPlayerTurn();
@@ -119,12 +119,12 @@ public class BoardController : MonoBehaviour {
     public void ShowPlayerWon(Player winingPlayer) {
         BoardModel boardModel = tttApp.Model;
         string statusMessage;
-        if (winingPlayer == boardModel.player1) {
-            boardModel.p1Total++;
-            statusMessage = "Player 1 wins!";
-        } else if (winingPlayer == boardModel.player2) {
-            boardModel.p2Total++;
-            statusMessage = "Player 2 wins!";
+        if (winingPlayer == boardModel.players[0]) {
+            boardModel.playerScores[0]++;
+            statusMessage = boardModel.players[0].playerName + " wins!";
+        } else if (winingPlayer == boardModel.players[1]) {
+            boardModel.playerScores[1]++;
+            statusMessage = boardModel.players[1].playerName + " wins!";
         } else {
             statusMessage = "Game is a Draw!";
         }

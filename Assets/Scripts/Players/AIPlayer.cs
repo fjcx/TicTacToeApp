@@ -12,7 +12,7 @@ public abstract class AIPlayer : Player {
     // For AI player clicking on the game board is disabled and move() is called
     // to determine best move (which is defined by the inherited AI player classes)
     public override void ChooseNextMove(BoardModel boardModel) {
-        EventController.Instance.Publish(new UpdateCurrentTurnEvent(boardModel.currentPlayer, "Thinking..."));
+        EventController.Instance.Publish(new UpdateCurrentTurnEvent(boardModel.players[boardModel.currentPlayerIndex], "Thinking..."));
         cells = boardModel.cells;
         setOpponentSymbol();
         int bestMove = move();

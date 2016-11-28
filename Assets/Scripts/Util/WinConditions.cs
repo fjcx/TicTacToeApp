@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
+﻿
 // Util class for checking win/draw conditions
 public static class WinConditions {
 
