@@ -20,7 +20,9 @@ public class BoardView : MonoBehaviour {
     #region Subscribed event listeners
     // Received DisplayBoardEvent
     public void OnDisplayBoardEvent(DisplayBoardEvent evt) {
-        // not called, remove
+        EventController.Instance.Publish(new DisplayMainMenuEvent(false));
+        EventController.Instance.Publish(new DisplayPlayerSelectMenuEvent(false));
+        EventController.Instance.Publish(new DisplayStatusPanelEvent(false, ""));
     }
 
     // Received UpdateBoardCellsEvent

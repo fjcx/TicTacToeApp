@@ -45,14 +45,6 @@ public class DoNextMoveEvent : GameEvent {
         this.fakeWait = fakeWait;
     }
 }
-
-public class ChooseNextMoveEvent : GameEvent {
-    public PlayerModel currentPlayer { get; private set; }
-
-    public ChooseNextMoveEvent(PlayerModel currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-}
 #endregion
 
 #region Cell view events
@@ -138,6 +130,16 @@ public class DisplayPlayerSelectMenuEvent : GameEvent {
 
     public DisplayPlayerSelectMenuEvent(bool isDisplayed) {
         this.isDisplayed = isDisplayed;
+    }
+}
+#endregion
+
+#region Player related events
+public class ChooseNextMoveEvent : GameEvent {
+    public PlayerModel currentPlayer { get; private set; }
+
+    public ChooseNextMoveEvent(PlayerModel currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 }
 
