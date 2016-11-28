@@ -1,6 +1,7 @@
 # TicTacToeApp
 
 Simple Game of Tic Tac Toe
+
 Note: UI was optimized at Standalone (1024x736) setting
 
 Code Structure:
