@@ -1,13 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-
-// temp test: code from http://www.willrmiller.com/?p=87
-// to be changed... 
-
-// TODO: change singelton interface to be thread safe like audioController
-// TODO: perhaps rename to EventManager or something else, this class is perhaps not really a controller
-// SideNote: singleton implemented as per http://csharpindepth.com/Articles/General/Singleton.aspx#nested-cctor
+// Type Safe eventing system based partially on http://www.willrmiller.com/?p=87
 public class EventController {
     private static readonly EventController instance = new EventController();
 
@@ -19,7 +13,6 @@ public class EventController {
         get { return instance; }
     }
 
-    // Use this for initialization
     private EventController() {
     }
 
@@ -29,15 +22,12 @@ public class EventController {
     private Dictionary<System.Type, EventDelegate> delegates = new Dictionary<System.Type, EventDelegate>();
     private Dictionary<System.Delegate, EventDelegate> delegateLookup = new Dictionary<System.Delegate, EventDelegate>();
 
-    // TODO: Although AddListener is probably a more technically correct description of what is happening to note the event here,
-    // I feel subscribe/unsubscribe/publish gives a better conceptual of how to use these methods when call the eventcontroller
+    // Subscribe to type safe event inherited from GameEvent
     public void Subscribe<T>(EventDelegate<T> del) where T : GameEvent {
-        // Early-out if we've already registered this delegate
         if (delegateLookup.ContainsKey(del))
             return;
 
         // Create a new non-generic delegate which calls our generic one.
-        // This is the delegate we actually invoke.
         EventDelegate internalDelegate = (e) => del((T)e);
         delegateLookup[del] = internalDelegate;
 
@@ -49,8 +39,7 @@ public class EventController {
         }
     }
 
-    // TODO: Although RemoveListener is probably a more technically correct description of what is happening to note the event here,
-    // I feel subscribe/unsubscribe/publish gives a better conceptual of how to use these methods when call the eventcontroller
+    // Unsubscribe from type safe event
     public void UnSubscribe<T>(EventDelegate<T> del) where T : GameEvent {
         EventDelegate internalDelegate;
         if (delegateLookup.TryGetValue(del, out internalDelegate)) {
@@ -68,14 +57,7 @@ public class EventController {
         }
     }
 
-    // TODO: Should add a cleanup method to remove all listeners on destroy !!
-    public void OnApplicationQuit() {
-        // TODO: see http://www.bendangelo.me/unity3d/2014/12/24/unity3d-event-manager.html
-        // for remove all method etc !!
-    }
-
-    // TODO: Although Raise is probably a more technically correct description of what is happening invoke the event
-    // I feel subscribe/unsubscribe/publish gives a better conceptual of how to use these methods when call the eventcontroller
+    // Publish type safe event inherited from GameEvent
     public void Publish(GameEvent e) {
         EventDelegate del;
         if (delegates.TryGetValue(e.GetType(), out del)) {

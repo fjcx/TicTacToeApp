@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// Util class for checking win/draw conditions
 public static class WinConditions {
 
+    // Checks for game winning conditions.
+    /// <param name="testCells">Board cell representation to test.</param>
+    /// <param name="testSymbol">Symbol to check for win (i.e. check if X won/check if O won).</param>
     public static bool isWinningCondition(CellContent[] testCells, CellContent testSymbol) {
         // row1
         if (testCells[0] == testSymbol && testCells[1] == testSymbol && testCells[2] == testSymbol) {
@@ -39,11 +43,13 @@ public static class WinConditions {
         return false;
     }
 
-    // should only be called after checking for a win as draw only checks if board doesn't contain Empty cells
-    public static bool isDraw(CellContent[] boardScore) {
-        // check for draw !
-        for (int i = 0; i < boardScore.Length; i++) {
-            if (boardScore[i] == CellContent.EMPTY) {
+    // Testing for a draw. 
+    // Note: should only be called after checking for a win as draw only checks if board doesn't contain Empty cells
+    /// <param name="testCells">Board cell representation to test.</param>
+    public static bool isDraw(CellContent[] testCells) {
+        // check for draw
+        for (int i = 0; i < testCells.Length; i++) {
+            if (testCells[i] == CellContent.EMPTY) {
                 return false;
             }
         }

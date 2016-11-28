@@ -8,13 +8,12 @@ public enum CellContent {
 [System.Serializable]
 public class BoardModel {
 
-    public CellContent[] cells;
+    public CellContent[] cells;     // Representation of game board
 
-    public int p1Total;     // --> perhaps change to int[]
-    public int p2Total;
+    public Player player1;          // Player 1 details
+    public Player player2;          // Player 2 details
+    public Player currentPlayer;    // Reference to current player
 
-    public Player player1;  // --> perhaps change to PlayerModel[]
-    public Player player2;
-
-    public Player currentPlayer;
+    public int p1Total;             // Player 1 total score
+    public int p2Total;             // Player 2 total score
 }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// Basic human player
 public class HumanPlayer : Player {
 
     public HumanPlayer(string playerName, CellContent playerSymbol) {
@@ -8,9 +9,9 @@ public class HumanPlayer : Player {
         this.playerSymbol = playerSymbol;
     }
 
+    // For human player choose next move just enablings clicking on the game 
+    // board and waits for the player to click a cell as their next move
     public override void ChooseNextMove (BoardModel boardModel) {
-        // Enable board clicking and wait for player action
-        // TODO: enable board clicking and choose next move
         EventController.Instance.Publish(new UpdateCurrentTurnEvent(boardModel.currentPlayer, "Pick a square"));
         EventController.Instance.Publish(new EnableBoardClickEvent(true));
     }

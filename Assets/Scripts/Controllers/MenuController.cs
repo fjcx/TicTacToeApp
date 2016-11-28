@@ -1,50 +1,44 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// Controller class containing menu related logic
 public class MenuController : MonoBehaviour {
 
-    private TTTApplication tttApplication;
+    private TTTApplication tttApp;
 
-    // Use this for initialization
     void Start () {
-        // Perhaps use different reference !!!
-        tttApplication = (TTTApplication)GameObject.FindObjectOfType(typeof(TTTApplication));
-
-        // Menu Menu Events
+        tttApp = (TTTApplication)GameObject.FindObjectOfType(typeof(TTTApplication));
+        // Subscribing to Menu Menu Events
         EventController.Instance.Subscribe<StartNewGameEvent>(OnStartNewGameEvent);
         EventController.Instance.Subscribe<ContinueGameEvent>(OnContinueGameEvent);
         EventController.Instance.Subscribe<QuitGameEvent>(OnQuitGameEvent);
-        // Player Select Events
+        // Subscribing to Player Select Events
         EventController.Instance.Subscribe<CreatePlayersEvent>(OnCreatePlayersEvent);
     }
 
-    public void ShowMainMenu() {
-        EventController.Instance.Publish(new DisplayMainMenuEvent(true));
-    }
-
-    // Event Handlers
+    #region Subscribed event listeners
+    // Received StartNewGameEvent. Shows Select players Panel 
     public void OnStartNewGameEvent(StartNewGameEvent evt) {
-        // Start New Game logic
-
-        // Show Select players Panel
         EventController.Instance.Publish(new DisplayPlayerSelectMenuEvent(true));
     }
 
+    // Received ContinueGameEvent
     public void OnContinueGameEvent(ContinueGameEvent evt) {
-        // Continue game logic
+        // TODO: add continue game logic
         StartGame();
     }
 
+    // Received QuitGameEvent
     public void OnQuitGameEvent(QuitGameEvent evt) {
-        // Quit Game logic
-        Debug.Log("Quitting");
-        Application.Quit();         // TODO: perhaps call to TTTapplication to quit !!
+         Application.Quit();
     }
 
+    // Received CreatePlayersEvent
     public void OnCreatePlayersEvent(CreatePlayersEvent evt) {
         Player player1 = null;
         Player player2 = null;
 
+        // Creating new Player types based on drop down selection
         if (evt.player1Type == "Human") {
             player1 = new HumanPlayer(evt.player1Name, CellContent.X);
         } else {
@@ -58,23 +52,27 @@ public class MenuController : MonoBehaviour {
         }
 
         // Update BoardModel with new Players
-        BoardModel boardModel = tttApplication.Model;
+        BoardModel boardModel = tttApp.Model;
         boardModel.player1 = player1;
         boardModel.player2 = player2;
         boardModel.currentPlayer = player1;
         boardModel.p1Total = 0;
         boardModel.p2Total = 0;
-        // TODO: consider using UpdateBoardModel Event !!!
 
-        // Continue game logic
         StartGame();
     }
+    #endregion
 
+    // Starts Game by hiding menus and resetting the game board
     private void StartGame() {
-        // Hide Menus & Show Board with stored players
         EventController.Instance.Publish(new DisplayMainMenuEvent(false));
         EventController.Instance.Publish(new DisplayPlayerSelectMenuEvent(false));
         EventController.Instance.Publish(new DisplayStatusPanelEvent(false, ""));
         EventController.Instance.Publish(new ResetBoardEvent());
+    }
+
+    // Invokes the MainMenuView to display
+    public void ShowMainMenu() {
+        EventController.Instance.Publish(new DisplayMainMenuEvent(true));
     }
 }

@@ -2,10 +2,11 @@
 using System.Collections;
 using System;
 
+// Base type safe event
 public class GameEvent {
 }
 
-// Board View Events
+#region Game board events
 public class DisplayBoardEvent : GameEvent {
     public bool isDisplayed { get; private set; }
 
@@ -30,7 +31,23 @@ public class EnableBoardClickEvent : GameEvent {
     }
 }
 
-// Cell View Events
+public class ResetBoardEvent : GameEvent {
+    public ResetBoardEvent() {
+    }
+}
+
+public class DoNextMoveEvent : GameEvent {
+    public int move { get; private set; }
+    public float fakeWait { get; private set; }
+
+    public DoNextMoveEvent(int move, float fakeWait) {
+        this.move = move;
+        this.fakeWait = fakeWait;
+    }
+}
+#endregion
+
+#region Cell view events
 public class CellClickEvent : GameEvent {
     public int cellIndex { get; private set; }
 
@@ -38,22 +55,9 @@ public class CellClickEvent : GameEvent {
         this.cellIndex = cellIndex;
     }
 }
+#endregion
 
-// Board Model Events
-/*public class UpdateBoardModelEvent : GameEvent {
-    public BoardModel boardModel { get; private set; }
-
-    public UpdateBoardModelEvent(BoardModel boardModel) {
-        this.boardModel = boardModel;
-    }
-}*/
-
-public class ResetBoardEvent : GameEvent {
-    public ResetBoardEvent() {
-    }
-}
-
-// Update Total Score
+#region Total score view events
 public class UpdateTotalScoreEvent : GameEvent {
     public BoardModel boardModel { get; private set; }
 
@@ -69,8 +73,9 @@ public class DisplayTotalScoreEvent : GameEvent {
         this.isDisplayed = isDisplayed;
     }
 }
+#endregion
 
-// Update Current Turn
+#region Current turn view events
 public class UpdateCurrentTurnEvent : GameEvent {
     public Player currentPlayer { get; private set; }
     public string currentAction { get; private set; }
@@ -80,8 +85,9 @@ public class UpdateCurrentTurnEvent : GameEvent {
         this.currentAction = currentAction;
     }
 }
+#endregion
 
-// Update Status Panel
+#region Status panel view events
 public class DisplayStatusPanelEvent : GameEvent {
     public bool isDisplayed { get; private set; }
     public string statusText { get; private set; }
@@ -91,18 +97,9 @@ public class DisplayStatusPanelEvent : GameEvent {
         this.statusText = statusText;
     }
 }
+#endregion
 
-public class DoNextMoveEvent : GameEvent {
-    public int move { get; private set; }
-    public float fakeWait { get; private set; }
-
-    public DoNextMoveEvent(int move, float fakeWait) {
-        this.move = move;
-        this.fakeWait = fakeWait;
-    }
-}
-
-// Main Menu Events
+#region Menu events
 public class DisplayMainMenuEvent : GameEvent {
     public bool isDisplayed { get; private set; }
 
@@ -125,8 +122,9 @@ public class QuitGameEvent : GameEvent {
     public QuitGameEvent() {
     }
 }
+#endregion
 
-// Player Select Menu Events
+#region Player select events
 public class DisplayPlayerSelectMenuEvent : GameEvent {
     public bool isDisplayed { get; private set; }
 
@@ -148,4 +146,5 @@ public class CreatePlayersEvent : GameEvent {
         this.player2Type = player2Type;
     }
 }
+#endregion
 

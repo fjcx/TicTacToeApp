@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
+// View class for total score panel
 public class TotalScorePanelView : MonoBehaviour {
 
     public Text p1Name;
@@ -10,11 +11,13 @@ public class TotalScorePanelView : MonoBehaviour {
     public Text p2TotalText;
 
     void Start () {
+        // Subscribing to total score panel related events
         EventController.Instance.Subscribe<UpdateTotalScoreEvent>(OnUpdateTotalScoreEvent);
         EventController.Instance.Subscribe<DisplayTotalScoreEvent>(OnDisplayTotalScoreEvent);
     }
 
-    // Event Handlers
+    #region Subscribed event listeners
+    // Received UpdateTotalScoreEvent. Update total score panel UI elements
     public void OnUpdateTotalScoreEvent(UpdateTotalScoreEvent evt) {
         p1Name.text = evt.boardModel.player1.playerName;
         p2Name.text = evt.boardModel.player2.playerName;
@@ -22,6 +25,7 @@ public class TotalScorePanelView : MonoBehaviour {
         p2TotalText.text = "" + evt.boardModel.p2Total;
     }
 
+    // Received DisplayTotalScoreEvent. Show/Hide total score panel
     public void OnDisplayTotalScoreEvent(DisplayTotalScoreEvent evt) {
         if (evt.isDisplayed) {
             transform.SetAsLastSibling();
@@ -29,4 +33,5 @@ public class TotalScorePanelView : MonoBehaviour {
             transform.SetAsFirstSibling();
         }
     }
+    #endregion
 }

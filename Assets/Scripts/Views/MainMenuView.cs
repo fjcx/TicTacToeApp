@@ -2,27 +2,33 @@
 using UnityEngine.UI;
 using System.Collections;
 
+// View class for main main
 public class MainMenuView : MonoBehaviour {
 
-    // Use this for initialization
     void Start() {
+        // Subscribing to main menu related events
         EventController.Instance.Subscribe<DisplayMainMenuEvent>(OnDisplayMainMenuEvent);
     }
 
-    // Click Handlers
+    #region OnClick event handlers
+    // Start New Game button clicked
     public void StartNewGame() {
         EventController.Instance.Publish(new StartNewGameEvent());
     }
 
+    // Continue Game button clicked
     public void ContinueGame() {
         EventController.Instance.Publish(new ContinueGameEvent());
     }
 
+    // Quit Game button clicked
     public void QuitGame() {
         EventController.Instance.Publish(new QuitGameEvent());
     }
+    #endregion
 
-    // Event Handlers
+    #region Subscribed event listeners
+    // Show/Hide main menu
     public void OnDisplayMainMenuEvent(DisplayMainMenuEvent evt) {
         if (evt.isDisplayed) {
             transform.SetAsLastSibling();
@@ -30,4 +36,5 @@ public class MainMenuView : MonoBehaviour {
             transform.SetAsFirstSibling();
         }
     }
+    #endregion
 }

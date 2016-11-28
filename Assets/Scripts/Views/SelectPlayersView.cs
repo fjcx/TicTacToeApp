@@ -2,9 +2,8 @@
 using UnityEngine.UI;
 using System.Collections;
 
+// View class for main main
 public class SelectPlayersView : MonoBehaviour {
-
-    public GameObject selectPlayersView;
 
     public InputField player1Name;
     public InputField player2Name;
@@ -13,29 +12,37 @@ public class SelectPlayersView : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        // Subscribing to player select related events
         EventController.Instance.Subscribe<DisplayPlayerSelectMenuEvent>(OnDisplayPlayerSelectMenuEvent);
     }
 
-    public void ShowSelectPlayers(bool showPanel) {
-        Debug.Log("ShowSelectPlayers");
-        selectPlayersView.SetActive(showPanel);
-        transform.SetAsLastSibling();
-    }
-
-    // Event Handlers
+    #region Subscribed event listeners
+    // Received DisplayPlayerSelectMenuEvent
     public void OnDisplayPlayerSelectMenuEvent(DisplayPlayerSelectMenuEvent evt) {
         ShowSelectPlayers(evt.isDisplayed);
     }
+    #endregion
 
-    // Click Handlers
+    #region OnClick event listeners
+    // confirm button clicked
     public void Confirm() {
         EventController.Instance.Publish(new CreatePlayersEvent(
             player1Name.text, p1DropDown.captionText.text,
             player2Name.text, p2DropDown.captionText.text));
     }
 
+    // Cancel button clicked
     public void Cancel() {
-        // Hide the Player Select menu
         ShowSelectPlayers(false);
+    }
+    #endregion
+
+    // Show/Hide select players panel
+    public void ShowSelectPlayers(bool showPanel) {
+        if (showPanel) {
+            transform.SetAsLastSibling();
+        } else {
+            transform.SetAsFirstSibling();
+        }
     }
 }

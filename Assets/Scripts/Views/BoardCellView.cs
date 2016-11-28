@@ -2,29 +2,31 @@
 using UnityEngine.UI;
 using System.Collections;
 
-[System.Serializable]
+// View class for updating individual cell UI elements
 public class BoardCellView : MonoBehaviour {
 
-    private Button cellBtn;
-    public int cellIndex;
-
-    public CellContent symbol = CellContent.EMPTY;
-    public Text cellText;
+    private Button cellBtn;                         // reference to cell button
+    public Text cellText;                           // reference to cell Text object
+    public int cellIndex;                           // index for tracking click events
+    public CellContent symbol = CellContent.EMPTY;  // current assigned cell symbol
 
     private void Start() {
         cellBtn = transform.GetComponent<Button>();
     }
 
-    // OnClick Handlers
+    #region OnClick event handlers
+    // Cell is clicked
     public void CellClick() {
         EventController.Instance.Publish(new CellClickEvent(cellIndex));
     }
+    #endregion
 
+    // Enable/Disable cell clicking
     public void EnableCellClick(bool isEnabled) {
         cellBtn.interactable = isEnabled;
-        // TODO: change color of cell ?
     }
 
+    // Update Text based on assigned symbol
     public void UpdateGridCell(CellContent symbol) {
         this.symbol = symbol;
         if (symbol == CellContent.O) {

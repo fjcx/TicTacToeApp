@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TTTApplication : MonoBehaviour {
+// Entry point for application
+ public class TTTApplication : MonoBehaviour {
 
-    // Model references
-    public BoardModel Model { get; private set; }
+    public BoardModel Model { get; private set; }       // Model reference
 
     private static TTTApplication _instance;
     public static TTTApplication Instance {
@@ -25,6 +25,7 @@ public class TTTApplication : MonoBehaviour {
         InitModels();
     }
 
+    // Setting initial model values, or reading stored values
     public void InitModels() {
         this.Model = new BoardModel();
         this.Model.cells = new CellContent[9];
