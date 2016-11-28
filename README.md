@@ -10,6 +10,7 @@ TTTApplication -> app entry point, model store
 * Controllers
  * BoardController -> controller containing logic for game board
  * MenuController -> controller containing logic for menus
+ * PlayerController -> controller containing logic for player moves
  * EventController -> type safe eventing framework
 * Views
  * MainMenuView -> view of main menu screen
@@ -22,8 +23,4 @@ TTTApplication -> app entry point, model store
 * Utils
  * Event -> defined custom events
  * WinConidtions -> util class to check win/draw coniditions
-* Players
- * Player -> abstract player class
- * HumanPlayer -> basic human player logic
- * AIPlayer -> abstract AI class
- * AIPlayerMinimax -> basic minimax based AI logic
+ * MinimaxAlgo -> util class to get best move via minimax algorithm
