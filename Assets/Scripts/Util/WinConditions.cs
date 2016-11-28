@@ -8,37 +8,39 @@ public static class WinConditions {
     /// <param name="testCells">Board cell representation to test.</param>
     /// <param name="testSymbol">Symbol to check for win (i.e. check if X won/check if O won).</param>
     public static bool isWinningCondition(CellContent[] testCells, CellContent testSymbol) {
-        // row1
-        if (testCells[0] == testSymbol && testCells[1] == testSymbol && testCells[2] == testSymbol) {
-            return true;
-        }
-        // row2
-        if (testCells[3] == testSymbol && testCells[4] == testSymbol && testCells[5] == testSymbol) {
-            return true;
-        }
-        // row3
-        if (testCells[6] == testSymbol && testCells[7] == testSymbol && testCells[8] == testSymbol) {
-            return true;
-        }
-        // col1
-        if (testCells[0] == testSymbol && testCells[3] == testSymbol && testCells[6] == testSymbol) {
-            return true;
-        }
-        // col2
-        if (testCells[1] == testSymbol && testCells[4] == testSymbol && testCells[7] == testSymbol) {
-            return true;
-        }
-        // col3
-        if (testCells[2] == testSymbol && testCells[5] == testSymbol && testCells[8] == testSymbol) {
-            return true;
-        }
-        // diag1
-        if (testCells[0] == testSymbol && testCells[4] == testSymbol && testCells[8] == testSymbol) {
-            return true;
-        }
-        // diag2
-        if (testCells[6] == testSymbol && testCells[4] == testSymbol && testCells[2] == testSymbol) {
-            return true;
+        if (testSymbol == CellContent.X || testSymbol == CellContent.O) {
+            // row1
+            if (testCells[0] == testSymbol && testCells[1] == testSymbol && testCells[2] == testSymbol) {
+                return true;
+            }
+            // row2
+            if (testCells[3] == testSymbol && testCells[4] == testSymbol && testCells[5] == testSymbol) {
+                return true;
+            }
+            // row3
+            if (testCells[6] == testSymbol && testCells[7] == testSymbol && testCells[8] == testSymbol) {
+                return true;
+            }
+            // col1
+            if (testCells[0] == testSymbol && testCells[3] == testSymbol && testCells[6] == testSymbol) {
+                return true;
+            }
+            // col2
+            if (testCells[1] == testSymbol && testCells[4] == testSymbol && testCells[7] == testSymbol) {
+                return true;
+            }
+            // col3
+            if (testCells[2] == testSymbol && testCells[5] == testSymbol && testCells[8] == testSymbol) {
+                return true;
+            }
+            // diag1
+            if (testCells[0] == testSymbol && testCells[4] == testSymbol && testCells[8] == testSymbol) {
+                return true;
+            }
+            // diag2
+            if (testCells[6] == testSymbol && testCells[4] == testSymbol && testCells[2] == testSymbol) {
+                return true;
+            }
         }
         return false;
     }
