@@ -45,6 +45,14 @@ public class DoNextMoveEvent : GameEvent {
         this.fakeWait = fakeWait;
     }
 }
+
+public class ChooseNextMoveEvent : GameEvent {
+    public PlayerModel currentPlayer { get; private set; }
+
+    public ChooseNextMoveEvent(PlayerModel currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+}
 #endregion
 
 #region Cell view events
@@ -77,10 +85,10 @@ public class DisplayTotalScoreEvent : GameEvent {
 
 #region Current turn view events
 public class UpdateCurrentTurnEvent : GameEvent {
-    public Player currentPlayer { get; private set; }
+    public PlayerModel currentPlayer { get; private set; }
     public string currentAction { get; private set; }
 
-    public UpdateCurrentTurnEvent(Player currentPlayer, string currentAction) {
+    public UpdateCurrentTurnEvent(PlayerModel currentPlayer, string currentAction) {
         this.currentPlayer = currentPlayer;
         this.currentAction = currentAction;
     }

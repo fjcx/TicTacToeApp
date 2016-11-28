@@ -31,11 +31,18 @@
         for (int i = 0; i < Model.cells.Length; i++) {
             Model.cells[i] = CellContent.EMPTY;
         }
-        this.Model.players = new Player[2];
+        /*this.Model.players = new Player[2];
         this.Model.playerScores = new int[2];
 
         this.Model.playerScores[0] = 0;
         this.Model.playerScores[1] = 0;
-        this.Model.currentPlayerIndex = 0;
+        this.Model.currentPlayerIndex = 0;*/
+
+        this.Model.players = new PlayerModel[2] {new PlayerModel(), new PlayerModel()};
+        this.Model.players[1].playerName = "Player 1";
+        this.Model.players[1].playerSymbol = CellContent.O;
+        this.Model.players[1].playerType = PlayerType.AIMINIMAX;
+
+        Debug.Log("To Json: " + JsonUtility.ToJson(this.Model));
     }
 }

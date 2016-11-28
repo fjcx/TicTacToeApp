@@ -21,8 +21,8 @@ public class TotalScorePanelView : MonoBehaviour {
     public void OnUpdateTotalScoreEvent(UpdateTotalScoreEvent evt) {
         p1Name.text = evt.boardModel.players[0].playerName;
         p2Name.text = evt.boardModel.players[1].playerName;
-        p1TotalText.text = "" + evt.boardModel.playerScores[0];
-        p2TotalText.text = "" + evt.boardModel.playerScores[1];
+        p1TotalText.text = "" + evt.boardModel.players[0].score;
+        p2TotalText.text = "" + evt.boardModel.players[1].score;
     }
 
     // Received DisplayTotalScoreEvent. Show/Hide total score panel

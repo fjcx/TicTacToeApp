@@ -1,48 +1,42 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System;
 
-// AI player based on basic minimax algorithm
-public class AIPlayerMinimax : AIPlayer {
-    public AIPlayerMinimax(string playerName, CellContent playerSymbol) {
-        this.playerName = playerName;
-        this.playerSymbol = playerSymbol;
-    }
+public static class MinimaxAlgo {
 
     // Get next best move for AI. Returns cellIndex for bestMove
-    public override int move() {
-        int[] result = minimax(2, playerSymbol);
+    public static int bestMove(CellContent currPlayer, CellContent[] cells, CellContent playerSymbol, CellContent opponentSymbol) {
+        int[] result = minimax(2, cells, currPlayer, playerSymbol, opponentSymbol);
         return result[1];
     }
 
     // Recursive minimax algo. Return int[2] of {score, cellIndex}
-    private int[] minimax(int depth, CellContent player) {
+    private static int[] minimax(int depth, CellContent[] cells, CellContent currPlayer, CellContent playerSymbol, CellContent opponentSymbol) {
         // Generate possible next moves in a List of indices
-        List<int> nextMoves = generateMoves();
+        List<int> nextMoves = generateMoves(cells, playerSymbol, opponentSymbol);
 
         //  Maximizing playerSymbol, while minimize opponentSymbol
-        int bestScore = (player == playerSymbol) ? int.MinValue : int.MaxValue;
+        int bestScore = (currPlayer == playerSymbol) ? int.MinValue : int.MaxValue;
         int currentScore;
         int bestIndex = -1;
 
         if (nextMoves.Count == 0 || depth == 0) {
             // No next moves, or depth reached, evaluate score
-            bestScore = evaluate();
+            bestScore = evaluate(cells, playerSymbol, opponentSymbol);
         } else {
             foreach (int move in nextMoves) {
                 // Try this move for current player
-                cells[move] = player;
-                if (player == playerSymbol) {
+                cells[move] = currPlayer;
+                if (currPlayer == playerSymbol) {
                     // Maximizing playerSymbol (i.e. AI player)
-                    currentScore = minimax(depth - 1, opponentSymbol)[0];
+                    currentScore = minimax(depth - 1, cells, opponentSymbol, playerSymbol, opponentSymbol)[0];
                     if (currentScore > bestScore) {
                         bestScore = currentScore;
                         bestIndex = move;
                     }
                 } else {
                     // Minimizing playerSymbol (i.e. AI player)
-                    currentScore = minimax(depth - 1, playerSymbol)[0];
+                    currentScore = minimax(depth - 1, cells, playerSymbol, playerSymbol, opponentSymbol)[0];
                     if (currentScore < bestScore) {
                         bestScore = currentScore;
                         bestIndex = move;
@@ -52,11 +46,11 @@ public class AIPlayerMinimax : AIPlayer {
                 cells[move] = CellContent.EMPTY;
             }
         }
-        return new int[] { bestScore, bestIndex};
+        return new int[] { bestScore, bestIndex };
     }
 
     // Find all valid next moves
-    private List<int> generateMoves() {
+    private static List<int> generateMoves(CellContent[] cells, CellContent playerSymbol, CellContent opponentSymbol) {
         List<int> nextMoves = new List<int>();
 
         // If win condition then there is no next move
@@ -78,17 +72,17 @@ public class AIPlayerMinimax : AIPlayer {
     //  Return +100, +10, +1 for EACH 3-, 2-, 1-in-a-line for currentPlayer (i.e. AI)
     //         -100, -10, -1 for EACH 3-, 2-, 1-in-a-line for opponentPlayer
     //          0 otherwise
-    private int evaluate() {
+    private static int evaluate(CellContent[] cells, CellContent playerSymbol, CellContent opponentSymbol) {
         int score = 0;
         // Evaluate score for each of the 8 cell combinations (3 rows, 3 columns, 2 diagonals)
-        score += evaluateLine(0, 1, 2);  // row 0
-        score += evaluateLine(3, 4, 5);  // row 1
-        score += evaluateLine(6, 7, 8);  // row 2
-        score += evaluateLine(0, 3, 6);  // col 0
-        score += evaluateLine(1, 4, 7);  // col 1
-        score += evaluateLine(2, 5, 8);  // col 2
-        score += evaluateLine(0, 4, 8);  // diagonal 1
-        score += evaluateLine(2, 4, 6);  // diagonal 2
+        score += evaluateLine(cells, 0, 1, 2, playerSymbol, opponentSymbol);  // row 0
+        score += evaluateLine(cells, 3, 4, 5, playerSymbol, opponentSymbol);  // row 1
+        score += evaluateLine(cells, 6, 7, 8, playerSymbol, opponentSymbol);  // row 2
+        score += evaluateLine(cells, 0, 3, 6, playerSymbol, opponentSymbol);  // col 0
+        score += evaluateLine(cells, 1, 4, 7, playerSymbol, opponentSymbol);  // col 1
+        score += evaluateLine(cells, 2, 5, 8, playerSymbol, opponentSymbol);  // col 2
+        score += evaluateLine(cells, 0, 4, 8, playerSymbol, opponentSymbol);  // diagonal 1
+        score += evaluateLine(cells, 2, 4, 6, playerSymbol, opponentSymbol);  // diagonal 2
         return score;
     }
 
@@ -96,7 +90,7 @@ public class AIPlayerMinimax : AIPlayer {
     //  Return +100, +10, +1 for EACH 3-, 2-, 1-in-a-line for currentPlayer (i.e. AI)
     //         -100, -10, -1 for EACH 3-, 2-, 1-in-a-line for opponentPlayer
     //          0 otherwise
-    private int evaluateLine(int cell1, int cell2, int cell3) {
+    private static int evaluateLine(CellContent[] cells, int cell1, int cell2, int cell3, CellContent playerSymbol, CellContent opponentSymbol) {
         int score = 0;
 
         // First cell

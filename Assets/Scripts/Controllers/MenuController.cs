@@ -35,20 +35,28 @@ public class MenuController : MonoBehaviour {
 
     // Received CreatePlayersEvent
     public void OnCreatePlayersEvent(CreatePlayersEvent evt) {
-        Player player1 = null;
-        Player player2 = null;
+        PlayerModel player1 = new PlayerModel();
+        PlayerModel player2 = new PlayerModel();
+
+        player1.score = 0;
+        player1.playerSymbol = CellContent.X;
+        player1.playerName = evt.player1Name;
+
+        player2.score = 0;
+        player2.playerSymbol = CellContent.O;
+        player2.playerName = evt.player2Name;
 
         // Creating new Player types based on drop down selection
         if (evt.player1Type == "Human") {
-            player1 = new HumanPlayer(evt.player1Name, CellContent.X);
+            player1.playerType = PlayerType.HUMAN;
         } else {
-            player1 = new AIPlayerMinimax(evt.player1Name, CellContent.X);
+            player1.playerType = PlayerType.AIMINIMAX;
         }
 
         if (evt.player2Type == "Human") {
-            player2 = new HumanPlayer(evt.player2Name, CellContent.O);
+            player2.playerType = PlayerType.HUMAN;
         } else {
-            player2 = new AIPlayerMinimax(evt.player2Name, CellContent.O);
+            player2.playerType = PlayerType.AIMINIMAX;
         }
 
         // Update BoardModel with new Players
@@ -56,8 +64,6 @@ public class MenuController : MonoBehaviour {
         boardModel.players[0] = player1;
         boardModel.players[1] = player2;
         boardModel.currentPlayerIndex = 0;
-        boardModel.playerScores[0] = 0;
-        boardModel.playerScores[1] = 0;
 
         StartGame();
     }

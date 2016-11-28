@@ -67,7 +67,7 @@ public class BoardController : MonoBehaviour {
     // Refers to the logic defined in Player type to choose the next move
     public void StartPlayerTurn() {
         BoardModel boardModel = tttApp.Model;
-        boardModel.players[boardModel.currentPlayerIndex].ChooseNextMove(boardModel);
+        EventController.Instance.Publish(new ChooseNextMoveEvent(boardModel.players[boardModel.currentPlayerIndex]));
     }
 
     // Applies the chosen move to the game board
@@ -116,14 +116,14 @@ public class BoardController : MonoBehaviour {
     }
 
     // Invokes status panel to display win/draw status
-    public void ShowPlayerWon(Player winingPlayer) {
+    public void ShowPlayerWon(PlayerModel winingPlayer) {
         BoardModel boardModel = tttApp.Model;
         string statusMessage;
         if (winingPlayer == boardModel.players[0]) {
-            boardModel.playerScores[0]++;
+            boardModel.players[0].score++;
             statusMessage = boardModel.players[0].playerName + " wins!";
         } else if (winingPlayer == boardModel.players[1]) {
-            boardModel.playerScores[1]++;
+            boardModel.players[1].score++;
             statusMessage = boardModel.players[1].playerName + " wins!";
         } else {
             statusMessage = "Game is a Draw!";

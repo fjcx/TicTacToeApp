@@ -9,9 +9,6 @@ public enum CellContent {
 public class BoardModel {
 
     public CellContent[] cells;     // Representation of game board
-
-    public Player[] players;        // Player details
     public int currentPlayerIndex;  // Current player index
-    public int[] playerScores;      // Players total scores
-
+    public PlayerModel[] players;   // Player data
 }
