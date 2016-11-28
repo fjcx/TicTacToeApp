@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     #region Subscribed event listeners
-    // Received ChooseNextMoveEvent.
+    // Received ChooseNextMoveEvent
     public void OnChooseNextMoveEvent(ChooseNextMoveEvent evt) {
         ChooseNextMode(evt.currentPlayer);
     }
@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour {
         boardModel.players[1] = player2;
         boardModel.currentPlayerIndex = 0;
 
+        EventController.Instance.Publish(new ResetBoardEvent());
         EventController.Instance.Publish(new DisplayBoardEvent(true));
     }
     #endregion

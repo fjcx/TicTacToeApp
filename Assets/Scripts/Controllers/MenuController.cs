@@ -4,10 +4,7 @@ using System.Collections;
 // Controller class containing menu related logic
 public class MenuController : MonoBehaviour {
 
-    private TTTApplication tttApp;
-
     void Start () {
-        tttApp = (TTTApplication)GameObject.FindObjectOfType(typeof(TTTApplication));
         // Subscribing to Menu Menu Events
         EventController.Instance.Subscribe<StartNewGameEvent>(OnStartNewGameEvent);
         EventController.Instance.Subscribe<ContinueGameEvent>(OnContinueGameEvent);
@@ -22,8 +19,8 @@ public class MenuController : MonoBehaviour {
 
     // Received ContinueGameEvent
     public void OnContinueGameEvent(ContinueGameEvent evt) {
-        // TODO: add continue game logic
-        //StartGame();
+        // Start game with players taken from boardModel (i.e. not new players)
+        EventController.Instance.Publish(new DisplayBoardEvent(true));
     }
 
     // Received QuitGameEvent
