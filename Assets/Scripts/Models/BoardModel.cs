@@ -14,10 +14,4 @@ public class BoardModel {
     public int currentPlayerIndex;  // Current player index
     public int[] playerScores;      // Players total scores
 
-    /*public Player player1;          // Player 1 details
-    public Player player2;          // Player 2 details
-    public Player currentPlayer;    // Reference to current player
-
-    public int p1Total;             // Player 1 total score
-    public int p2Total;             // Player 2 total score*/
 }
